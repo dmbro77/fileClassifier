@@ -34,6 +34,14 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
+:: Install Pillow for icon conversion
+echo Installing Pillow for icon conversion...
+pip install Pillow
+if %ERRORLEVEL% NEQ 0 (
+    echo Pillow installation failed, please install manually and try again.
+    exit /b 1
+)
+
 :: Clean old build files
 echo Cleaning old build files...
 if exist "%DIST_DIR%" (
@@ -50,7 +58,7 @@ if exist "%SPEC_DIR%" (
 
 :: Use PyInstaller to package the application
 echo Packaging application with PyInstaller...
-pyinstaller --noconfirm --onefile --windowed --icon=icon.png --name="%APP_NAME_EN%" --add-data="icon.png;." --add-data="config.json;." main.py
+pyinstaller --noconfirm --onefile --windowed --icon=icon.png --name="%APP_NAME_EN%" --add-data="icon.png;." main.py
 
 :: Check if packaging was successful
 if %ERRORLEVEL% NEQ 0 (
