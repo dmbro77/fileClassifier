@@ -55,6 +55,14 @@ class FileEventHandler(FileSystemEventHandler):
             
             # 如果源文件是临时文件，而目标文件不是，则处理目标文件
             if (src_extension == '.tmp' or src_extension == '.crdownload' or '.tmp' in src_name):
+                # 检查目标文件是否也是临时文件
+                _, dest_extension = os.path.splitext(dest_path)
+                dest_extension = dest_extension.lower()
+                dest_name = os.path.basename(dest_path)
+                
+                if dest_extension == '.tmp' or dest_extension == '.crdownload' or '.tmp' in dest_name:
+                    logger.debug(f"目标文件也是临时文件，忽略: {dest_path}")
+                    return
                 logger.debug(f"检测到临时文件重命名: {src_path} -> {dest_path}")
                 
                 # 给文件一点时间完成写入
@@ -113,14 +121,19 @@ class FileWatcher(QObject):
             logger.warning(f"文件不再存在，无法处理: {file_path}")
             return
             
+        # 获取文件扩展名并检查是否是临时文件
+        _, file_extension = os.path.splitext(file_path)
+        file_extension = file_extension.lower()
+        file_name = os.path.basename(file_path)
+        
+        if file_extension == '.tmp' or file_extension == '.crdownload' or '.tmp' in file_name:
+            logger.debug(f"忽略临时文件: {file_path}")
+            return
+            
         # 获取配置
         config = self.config_manager.get_config()
         rules = config.get('rules', [])
         default_target_folder = config.get('default_target_folder', '')
-        
-        # 获取文件扩展名
-        _, file_extension = os.path.splitext(file_path)
-        file_extension = file_extension.lower()
         
         # 查找匹配的规则
         target_folder = None
