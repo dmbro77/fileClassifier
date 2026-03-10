@@ -21,9 +21,9 @@
 
 ## 预览
 
-![设置界面](https://github.com/D2073620106/fileClassifier/blob/master/preview/1.png?raw=true)
-![分类规则界面](https://github.com/D2073620106/fileClassifier/blob/master/preview/2.png?raw=true)
-![系统托盘界面](https://github.com/D2073620106/fileClassifier/blob/master/preview/3.png?raw=true)
+![设置界面](https://github.com/dmbro77/fileClassifier/blob/master/preview/1.png?raw=true)
+![分类规则界面](https://github.com/dmbro77/fileClassifier/blob/master/preview/2.png?raw=true)
+![系统托盘界面](https://github.com/dmbro77/fileClassifier/blob/master/preview/3.png?raw=true)
 
 ## 安装要求
 
@@ -36,7 +36,7 @@
 
 ### 方法一：直接下载可执行文件
 
-1. 在 [Releases](https://github.com/D2073620106/fileClassifier/releases) 页面下载最新版本的可执行文件
+1. 在 [Releases](https://github.com/dmbro77/fileClassifier/releases) 页面下载最新版本的可执行文件
 2. 下载后直接运行 `FileClassifier.exe`
 
 ### 方法二：从源码安装
@@ -44,7 +44,7 @@
 1. 确保已安装 Python 3.6 或更高版本
 2. 克隆本仓库：
    ```
-   git clone https://github.com/D2073620106/fileClassifier.git
+   git clone https://github.com/dmbro77/fileClassifier.git
    cd fileClassifier
    ```
 3. 安装所需的依赖库：
