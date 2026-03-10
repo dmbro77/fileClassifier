@@ -16,18 +16,14 @@
 - 系统托盘运行，不占用桌面空间
 - 文件分类完成后显示通知
 - 点击通知可直接打开目标文件夹并定位文件
-- 对于未知的文件类型，会被移动到以文件后缀名为目录的文件夹下
 - 支持开机自动启动
-- 支持显示通知
-- 支持配置文件备份和恢复
 - 支持日志记录
 
 ## 预览
 
 ![设置界面](https://github.com/D2073620106/fileClassifier/blob/master/preview/1.png?raw=true)
-![规则设置界面](https://github.com/D2073620106/fileClassifier/blob/master/preview/3.png?raw=true)
-![编辑规则](https://github.com/D2073620106/fileClassifier/blob/master/preview/4.png?raw=true)
-![系统托盘界面](https://github.com/D2073620106/fileClassifier/blob/master/preview/2.png?raw=true)
+![分类规则界面](https://github.com/D2073620106/fileClassifier/blob/master/preview/2.png?raw=true)
+![系统托盘界面](https://github.com/D2073620106/fileClassifier/blob/master/preview/3.png?raw=true)
 
 ## 安装要求
 
@@ -53,6 +49,8 @@
    ```
 3. 安装所需的依赖库：
    ```
+   pip -m venv .venv
+   .venv\Scripts\activate
    pip install -r requirements.txt
    ```
 4. 运行应用程序：
@@ -76,12 +74,13 @@
 
 ## 配置说明
 
-### 文件夹设置
+### 设置
 
 - **监听文件夹**：应用程序将监听此文件夹中的新增文件
 - **默认分类文件夹**：当没有匹配的分类规则时，文件将被移动到此文件夹下的子文件夹中
 - **开机自动启动**：设置应用程序是否在系统启动时自动运行
 - **显示通知**：设置是否在文件分类完成后显示通知
+- **是否开启监听**：设置是否启用文件分类功能
 
 ### 规则设置
 
@@ -94,30 +93,28 @@
 ## 项目结构
 
 ```
-├── main.py              # 主应用程序入口
-├── file_watcher.py      # 文件监视器模块
-├── config_manager.py    # 配置管理器模块
-├── settings_dialog.py   # 设置对话框模块
-├── notification_handler.py # 通知处理模块
-├── constants.py         # 常量定义
-├── icon.png             # 应用图标
-├── config.json          # 配置文件
-└── requirements.txt     # 依赖库列表
+├── src/                 # 源代码目录
+│   ├── main.py          # 主应用程序入口
+│   ├── file_watcher.py  # 文件监视器逻辑
+│   ├── config_manager.py # 配置管理逻辑
+│   ├── settings_dialog.py # 设置界面 UI
+│   ├── monitoring_manager.py # 监听状态管理
+│   ├── notification_handler.py # 通知处理
+│   ├── startup_manager.py # 开机自启动管理
+│   ├── constants.py     # 常量定义
+│   ├── logger.py        # 日志记录模块
+│   └── icon.png         # 应用图标
+├── preview/             # 项目预览截图
+├── .gitignore           # Git 忽略文件配置
+├── build_exe.bat        # Windows 可执行文件打包脚本
+├── LICENSE              # 项目许可证
+├── README.md            # 项目说明文档
+└── requirements.txt     # 项目依赖列表
 ```
 
-## 打包为可执行文件
-
-项目使用PyInstaller打包为独立的可执行文件：
-
-```
-pyinstaller --onefile --windowed --icon=icon.png --name=FileClassifier main.py
-```
-
-或者直接运行项目中的`build_exe.bat`脚本。
 
 ## 注意事项
 
-- 应用程序需要有足够的权限来访问和修改指定的文件夹
 - 如果目标文件夹中已存在同名文件，新文件将被重命名
 - 监听大型文件夹可能会增加系统资源使用,目前没有测试过大型文件
 - 目前只在windows系统上测试过，其他系统未测试，不知能否运行

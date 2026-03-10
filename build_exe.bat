@@ -58,7 +58,7 @@ if exist "%SPEC_DIR%" (
 
 :: Use PyInstaller to package the application
 echo Packaging application with PyInstaller...
-pyinstaller --noconfirm --onefile --windowed --icon=icon.png --name="%APP_NAME_EN%" --add-data="icon.png;." main.py
+pyinstaller --noconfirm --onefile --windowed --icon="src/icon.png" --name="%APP_NAME_EN%" --add-data="src/icon.png;." src/main.py
 
 :: Check if packaging was successful
 if %ERRORLEVEL% NEQ 0 (
