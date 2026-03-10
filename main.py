@@ -348,11 +348,12 @@ class FileClassifierApp(QObject):
             self.update_category_folders()
     
     def on_file_classified(self, file_path, target_folder):
+        # 存储分类文件信息，用于通知点击事件和托盘点击事件
+        self.notification_handler.store_classified_file_info(file_path, target_folder)
+        
         config = self.config_manager.get_config()
         if config.get('show_notifications', True):
             file_name = os.path.basename(file_path)
-            # 存储分类文件信息，用于通知点击事件
-            self.notification_handler.store_classified_file_info(file_path, target_folder)
             
             self.tray_icon.showMessage(
                 f'{APP_NAME} - 文件已分类',
@@ -366,11 +367,22 @@ class FileClassifierApp(QObject):
         self.notification_handler.open_folder_and_select_file()
     
     def on_tray_icon_activated(self, reason):
-        # 当用户点击托盘图标时打开设置文件夹面板
+        # 当用户点击托盘图标时
         # QSystemTrayIcon.Trigger表示单击，QSystemTrayIcon.DoubleClick表示双击
         from PyQt5.QtWidgets import QSystemTrayIcon
         if reason == QSystemTrayIcon.Trigger or reason == QSystemTrayIcon.DoubleClick:
-            self.open_folder_settings()
+            # 尝试打开最新分类的文件
+            if self.notification_handler.open_folder_and_select_file():
+                return
+            
+            # 如果没有最新分类的文件，尝试打开监听文件夹
+            config = self.config_manager.get_config()
+            source_folder = config.get('source_folder', '')
+            if source_folder and os.path.isdir(source_folder):
+                self.open_folder(source_folder)
+            else:
+                # 如果都没有，打开设置界面
+                self.open_folder_settings()
     
     def exit_app(self):
         # 停止文件监视器
